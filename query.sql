@@ -1,0 +1,1 @@
+select user_name||'|'||account_lock rslt from system_.sys_users_
