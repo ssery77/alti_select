@@ -40,7 +40,8 @@ public class AltibaseTest {
             String line;
             while ((line = br.readLine()) != null) {
                 line = line.trim();
-                if (line.isEmpty() || line.startsWith("#")) continue;
+                if (line.isEmpty() || line.startsWith("#"))
+                    continue;
                 String[] parts = line.split("\\s+", 5);
                 if (parts.length < 5) {
                     System.err.println("Invalid dblist.cnf line (expected: name ip port user password): " + line);
@@ -74,16 +75,17 @@ public class AltibaseTest {
         // 4. 순차적으로 각 DB에 접속하여 질의 실행
         for (DbConfig db : dbConfigList) {
             String url = "jdbc:Altibase://" + db.ip + ":" + db.port + "/";
-            
+
             // Try-with-resources를 사용하여 자동 자원 해제
             try (Connection conn = DriverManager.getConnection(url, db.user, db.password);
-                 Statement stmt = conn.createStatement();
-                 ResultSet rs = stmt.executeQuery(query)) {
+                    Statement stmt = conn.createStatement();
+                    ResultSet rs = stmt.executeQuery(query)) {
 
                 while (rs.next()) {
                     String resultValue = rs.getString(1);
+                    String testValue = "OK".equals(resultValue) ? "TestOK" : "TestFail";
                     // System.out.println을 사용하여 포맷 관련 오류 방지
-                    System.out.println(db.name + "|" + resultValue);
+                    System.out.println(db.name + "|" + resultValue + "|" + testValue);
                 }
 
             } catch (SQLException e) {

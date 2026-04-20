@@ -1,1 +1,2 @@
-select user_name||'|'||account_lock rslt from system_.sys_users_
+select 'OK' rslt 
+from dual;
